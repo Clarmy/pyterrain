@@ -20,8 +20,8 @@ class Terrain:
         upper: float,
         right: float,
         lower: float,
-        min_limit: int = 4,
-        max_limit: int = 6,
+        min_limit: int = 16,
+        max_limit: int = 64,
     ) -> int:
         """To find a suitable zoom level for specific bound box.
 
@@ -80,20 +80,12 @@ class Terrain:
         )
         canvas = np.full(shape, np.nan)
 
-        if progress_bar:
-            for (nx, ny), url in tqdm(urls):
-                resp = requests.get(url, timeout=7, stream=True)
-                if resp.ok:
-                    buffer = io.BytesIO(resp.content)
-                    img = (plt.imread(buffer) * 255).astype(int)
-                    canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img
-        else:
-            for (nx, ny), url in urls:
-                resp = requests.get(url, timeout=7, stream=True)
-                if resp.ok:
-                    buffer = io.BytesIO(resp.content)
-                    img = (plt.imread(buffer) * 255).astype(int)
-                    canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img
+        for (nx, ny), url in tqdm(urls, disable=not progress_bar):
+            resp = requests.get(url, timeout=7, stream=True)
+            if resp.ok:
+                buffer = io.BytesIO(resp.content)
+                img = (plt.imread(buffer) * 255).astype(int)
+                canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img
 
         red = canvas[..., 0]
         green = canvas[..., 1]
@@ -104,11 +96,17 @@ class Terrain:
 
 
 if __name__ == "__main__":
-    bbox = 106.32485, 29.752133, 106.889417, 29.269342
+    bbox = 76.98806, 37.454188, 103.2594, 19.70498
 
     terrain = Terrain("Dto0r88DQuaQizoxcQScvw")
 
-    elevation = terrain.fetch(bbox=bbox)
+    elevation = terrain.fetch(bbox=bbox, progress_bar=False)
 
-    plt.imshow(elevation, cmap=plt.cm.rainbow)
-    plt.savefig("./test2.png", bbox_inches="tight")
+    fig = plt.figure(
+        figsize=(elevation.shape[1] / 100, elevation.shape[0] / 100), dpi=100
+    )
+    ax = plt.Axes(fig, [0.0, 0.0, 1.0, 1.0])
+    ax.set_axis_off()
+    fig.add_axes(ax)
+    ax.imshow(elevation, cmap=plt.cm.terrain)
+    fig.savefig("./test2.png")
