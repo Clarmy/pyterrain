@@ -36,13 +36,13 @@ class Terrain:
         Returns:
             int: The suitable zoome.
         """
-        for zoom in range(12):
+        for zoom in range(15):
             left_upper_tile = mercantile.tile(left, upper, zoom)
             right_upper_tile = mercantile.tile(right, upper, zoom)
             right_lower_tile = mercantile.tile(right, lower, zoom)
 
             x_span = int(np.abs(right_upper_tile.x - left_upper_tile.x) + 1)
-            y_span = int(np.abs(right_lower_tile.x - right_upper_tile.x) + 1)
+            y_span = int(np.abs(right_lower_tile.y - right_upper_tile.y) + 1)
 
             tile_nums = x_span * y_span
 
@@ -51,7 +51,7 @@ class Terrain:
 
         return zoom
 
-    def fetch(self, bbox: List, zoom: int = None) -> np.ndarray:
+    def fetch(self, bbox: List, zoom: int = None, progress_bar=False) -> np.ndarray:
         left, upper, right, lower = bbox
         if zoom is None:
             zoom = self._find_suitable_zoom(left, upper, right, lower)
@@ -79,12 +79,21 @@ class Terrain:
             4,
         )
         canvas = np.full(shape, np.nan)
-        for (nx, ny), url in tqdm(urls):
-            resp = requests.get(url, timeout=7, stream=True)
-            if resp.ok:
-                buffer = io.BytesIO(resp.content)
-                img = (plt.imread(buffer) * 255).astype(int)
-                canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img
+
+        if progress_bar:
+            for (nx, ny), url in tqdm(urls):
+                resp = requests.get(url, timeout=7, stream=True)
+                if resp.ok:
+                    buffer = io.BytesIO(resp.content)
+                    img = (plt.imread(buffer) * 255).astype(int)
+                    canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img
+        else:
+            for (nx, ny), url in urls:
+                resp = requests.get(url, timeout=7, stream=True)
+                if resp.ok:
+                    buffer = io.BytesIO(resp.content)
+                    img = (plt.imread(buffer) * 255).astype(int)
+                    canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img
 
         red = canvas[..., 0]
         green = canvas[..., 1]
@@ -95,7 +104,7 @@ class Terrain:
 
 
 if __name__ == "__main__":
-    bbox = 106.32485,29.752133, 106.889417,29.269342
+    bbox = 106.32485, 29.752133, 106.889417, 29.269342
 
     terrain = Terrain("Dto0r88DQuaQizoxcQScvw")
 
