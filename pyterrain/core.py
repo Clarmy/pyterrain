@@ -48,6 +48,8 @@ class Terrain:
 
             if min_limit <= tile_nums <= max_limit:
                 break
+        else:
+            print(f"tile_nums: {tile_nums}")
 
         return zoom
 
@@ -100,8 +102,9 @@ if __name__ == "__main__":
 
     terrain = Terrain("Dto0r88DQuaQizoxcQScvw")
 
-    elevation = terrain.fetch(bbox=bbox, progress_bar=False)
+    elevation = terrain.fetch(bbox=bbox, progress_bar=True)
 
+    print(f"max of elevation: {elevation.max()}")
     fig = plt.figure(
         figsize=(elevation.shape[1] / 100, elevation.shape[0] / 100), dpi=100
     )
@@ -109,4 +112,4 @@ if __name__ == "__main__":
     ax.set_axis_off()
     fig.add_axes(ax)
     ax.imshow(elevation, cmap=plt.cm.terrain)
-    fig.savefig("./test2.png")
+    fig.savefig("./tibat-plateau.png")
