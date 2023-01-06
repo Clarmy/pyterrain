@@ -1,6 +1,8 @@
 import os
 import io
 import shutil
+import copy
+import json
 from typing import List
 
 import requests
@@ -9,6 +11,7 @@ import numpy as np
 import pyproj
 
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 from tqdm import tqdm
 
 
@@ -64,9 +67,10 @@ class Terrain:
         progress_bar=False,
         timeout=10,
         cache_path="./cache",
-        keep_cache=False,
+        keep_cache=True,
         coord="xy",
     ) -> tuple:
+
         left, upper, right, lower = bbox
         if zoom is None:
             zoom = self._find_suitable_zoom(left, upper, right, lower)
@@ -97,7 +101,7 @@ class Terrain:
                 url = self.API_URL_PATTERN.format(
                     z=zoom, x=x, y=y, api_key=self.api_key
                 )
-                urls.append(((nx, ny), url))
+                urls.append(((nx, ny), (x, y), url))
 
         shape = (
             256 * len(range(tile_upper_y, tile_lower_y + 1, 1)),
@@ -123,8 +127,8 @@ class Terrain:
         ys = (np.full(shape[:2], 1) * ys1d[np.newaxis].T)[idx]
         xs = (np.full(shape[:2], 1) * xs1d[np.newaxis])[idx]
 
-        for (nx, ny), url in tqdm(urls, disable=not progress_bar):
-            tmpfp = os.path.join(cache_path, f"{zoom}_{nx}_{ny}.bin")
+        for (nx, ny), (x, y), url in tqdm(urls, disable=not progress_bar):
+            tmpfp = os.path.join(cache_path, f"{zoom}/{x}/{y}.bin")
             if os.path.exists(tmpfp):
                 with open(tmpfp, "rb") as f:
                     img = (plt.imread(f) * 255).astype(int)
@@ -149,6 +153,12 @@ class Terrain:
         blue = canvas[..., 2]
         elevation = ((red * 256 + green + blue / 256) - 32768).astype(int)[idx]
 
+        print(f"bbox: {bbox}")
+        print(f"zoom: {zoom}")
+        print(f"mean of elevation: {int(elevation.mean())}")
+        print(f"max of elevation: {elevation.max()}")
+        print(f"min of elevation: {elevation.min()}")
+
         if not keep_cache:
             shutil.rmtree(cache_path)
 
@@ -161,11 +171,22 @@ class Terrain:
 
 
 if __name__ == "__main__":
-    bbox = -108.994413, 40.944689, -102.00344, 37.011654
+
+    bbox = 138.654465, 35.432494, 138.788995, 35.274937  # 富士山
+    bbox = 86.552745, 28.262672, 87.166755, 27.680761  # 珠穆朗玛峰
+    # bbox = 108.190266,20.160011, 111.446587,18.017459 # 海南岛
+    bbox = 115.158242, 41.174249, 117.660274, 39.199025  # 北京
+    bbox = 115.403384, 40.100444, 115.611791, 39.963435  # 灵山地区
+    bbox = 108.444319, 20.161757, 111.318897, 18.05883  # 海南岛
 
     terrain = Terrain("qBD4m7PNT5apV-Xl7PROxA")
 
-    xs, ys, elevation = terrain.fetch(bbox=bbox, progress_bar=True, coord="lonlat")
+    xs, ys, elevation = terrain.fetch(
+        bbox=bbox, progress_bar=True, coord="lonlat", zoom=12
+    )
+
+    land = copy.deepcopy(elevation)
+    land[land < 0] = -9999
 
     fig = plt.figure(
         figsize=(elevation.shape[1] / 100, elevation.shape[0] / 100), dpi=100
@@ -173,5 +194,37 @@ if __name__ == "__main__":
     ax = plt.Axes(fig, [0.0, 0.0, 1.0, 1.0])
     ax.set_axis_off()
     fig.add_axes(ax)
-    ax.imshow(elevation, cmap=plt.cm.terrain, vmin=-800)
+
+    testcmap = colors.LinearSegmentedColormap.from_list("test", ["#3D2E00", "#C6C7B0"])
+    ax.contourf(
+        xs, ys, land, cmap=testcmap, levels=np.arange(5, land.max(), 2), zorder=3
+    )
+
+    ax.contourf(
+        xs, ys, elevation, levels=[elevation.min(), 0], colors=["#212A2D"], zorder=1
+    )
+
+    ax.contourf(xs, ys, elevation, levels=[0, 5], colors=["#41535A"], zorder=4)
+
+    ax.contour(
+        xs,
+        ys,
+        elevation,
+        colors="#382D06",
+        levels=np.arange(5, elevation.max(), 20),
+        alpha=0.6,
+        linewidths=0.4,
+        zorder=4,
+    )
+
+    ax.contour(
+        xs,
+        ys,
+        elevation,
+        colors="#382D06",
+        levels=np.arange(5, elevation.max(), 100),
+        alpha=0.6,
+        linewidths=0.8,
+        zorder=5,
+    )
     fig.savefig("./foo.png")

@@ -1,0 +1,7 @@
+cache/
+*.ipynb
+.ipynb*
+*.npy
+*.png
+*.geojson
+.DS_Store
