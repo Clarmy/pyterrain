@@ -5,3 +5,5 @@ cache/
 *.png
 *.geojson
 .DS_Store
+*egg*
+__pycache__
