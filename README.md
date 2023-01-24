@@ -13,10 +13,10 @@ Pyterrain don't offer terrain data itself, it fetches data from another website.
 When API key is reday, you can download DEM data like this:
 
 ```python
-bbox = 108.444319, 20.161757, 111.318897, 18.05883
+bbox = 108.444319, 20.161757, 111.318897, 18.05883  # Hainan province of China
 
-terrain = Terrain("Dto0r88DQuaQizoxcQSxxx")
-xs, ys, elevation = terrain.fetch(bbox=bbox, quiet=False, coord="lonlat", zoom=12)
+terrain = Terrain("Dto0r88DQuaQizoxcQSxxx")  # Pass API key
+xs, ys, elevation = terrain.fetch(bbox=bbox, quiet=False, coord="lonlat", zoom=10)
 ```
 
 If download is not complete because of connection, retry it.
