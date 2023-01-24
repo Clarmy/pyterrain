@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     terrain = Terrain("qBD4m7PNT5apV-Xl7PROxA")
 
-    xs, ys, elevation = terrain.fetch(bbox=bbox, progress_bar=True, coord="lonlat", zoom=12)
+    xs, ys, elevation = terrain.fetch(bbox=bbox, quiet=False, coord="lonlat", zoom=12)
 
     land = copy.deepcopy(elevation)
     land[land < 0] = -9999

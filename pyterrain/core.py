@@ -79,13 +79,17 @@ class Terrain:
         self,
         bbox: List,
         zoom: int = None,
-        progress_bar=False,
         timeout=10,
         cache_path="./cache",
         keep_cache=True,
         coord="xy",
         multiproc=4,
+        quiet=False,
     ) -> tuple:
+        if quiet:
+            progress_bar = False
+        else:
+            progress_bar = True
 
         left, upper, right, lower = bbox
         if zoom is None:
@@ -149,18 +153,20 @@ class Terrain:
             if not os.path.exists(tmpfp):
                 task_args.append([url, tmpfp, timeout])
 
-        with Pool(multiproc) as p:
-            result = list(
-                tqdm(
-                    p.imap_unordered(single_download, task_args),
-                    total=len(task_args),
-                    desc="downloading",
-                ),
-            )
-        try:
-            assert all(result)
-        except AssertionError:
-            raise Exception("Not download completely, please retry")
+        if task_args:
+            with Pool(multiproc) as p:
+                result = list(
+                    tqdm(
+                        p.imap_unordered(single_download, task_args),
+                        total=len(task_args),
+                        desc="downloading",
+                    ),
+                )
+
+            try:
+                assert all(result)
+            except AssertionError:
+                raise Exception("Not download completely, please retry")
 
         for (nx, ny), (x, y), url in tqdm(
             urls, disable=not progress_bar, desc="mosaicing"
@@ -176,11 +182,12 @@ class Terrain:
         blue = canvas[..., 2]
         elevation = ((red * 256 + green + blue / 256) - 32768).astype(int)[idx]
 
-        print(f"bbox: {bbox}")
-        print(f"zoom: {zoom}")
-        print(f"mean of elevation: {int(elevation.mean())}")
-        print(f"max of elevation: {elevation.max()}")
-        print(f"min of elevation: {elevation.min()}")
+        if not quiet:
+            print(f"bbox: {bbox}")
+            print(f"zoom: {zoom}")
+            print(f"mean of elevation: {int(elevation.mean())}")
+            print(f"max of elevation: {elevation.max()}")
+            print(f"min of elevation: {elevation.min()}")
 
         if not keep_cache:
             shutil.rmtree(cache_path)

@@ -16,7 +16,7 @@ When API key is reday, you can download DEM data like this:
 bbox = 108.444319, 20.161757, 111.318897, 18.05883
 
 terrain = Terrain("Dto0r88DQuaQizoxcQSxxx")
-xs, ys, elevation = terrain.fetch(bbox=bbox, progress_bar=True, coord="lonlat", zoom=10)
+xs, ys, elevation = terrain.fetch(bbox=bbox, quiet=False, coord="lonlat", zoom=12)
 ```
 
 If download is not complete because of connection, retry it.
