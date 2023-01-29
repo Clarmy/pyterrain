@@ -7,7 +7,7 @@ You can install by pip `$ pip install pyterrain`
 # Usage
 
 ## Register API Key
-Pyterrain doesn't offer terrain data itself, it fetches data from another website. Before downloading data, you should sign up an API key from [nextzen.org](https://developers.nextzen.org/). The key's pattern is like `Dto0r88DQuaQizoxcQSxxx`
+Pyterrain doesn't offer terrain data by itself, it fetches data from another website. Before downloading data, you should sign up an API key from [nextzen.org](https://developers.nextzen.org/). The key's pattern is like `Dto0r88DQuaQizoxcQSxxx`
 
 ## Fetch DEM by bound box
 When API key is reday, you can download DEM data like this:
