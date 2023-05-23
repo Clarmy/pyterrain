@@ -7,3 +7,4 @@ cache/
 .DS_Store
 *egg*
 __pycache__
+.vscode

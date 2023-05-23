@@ -5,3 +5,4 @@ tqdm>=4.64.1
 pyproj>=3.4.1
 matplotlib>=3.6.2
 retrying
+loguru

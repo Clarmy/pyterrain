@@ -7,6 +7,7 @@ import requests
 import mercantile
 import numpy as np
 import pyproj
+from loguru import logger
 
 import matplotlib.pyplot as plt
 from tqdm import tqdm
@@ -19,12 +20,16 @@ def single_download(arg):
     resp = requests.get(url, timeout=timeout, stream=True)
     if resp.ok:
         content = resp.content
+    else:
+        logger.debug(f"{resp}: {resp.url}")
+        return False
     os.makedirs(os.path.dirname(tmpfp), exist_ok=True)
     try:
         with open(tmpfp, "wb") as f:
             f.write(content)
-    except Exception:
+    except Exception as err:
         os.remove(tmpfp)
+        logger.exception(err)
         return False
     else:
         return True
@@ -175,7 +180,14 @@ class Terrain:
             with open(tmpfp, "rb") as f:
                 img = (plt.imread(f) * 255).astype(int)
 
-            canvas[ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256] = img  # noqa
+            if img.shape[-1] == 4:
+                canvas[
+                    ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256
+                ] = img  # noqa
+            elif img.shape[-1] == 3:
+                canvas[
+                    ny * 256 : ny * 256 + 256, nx * 256 : nx * 256 + 256, :3
+                ] = img  # noqa
 
         red = canvas[..., 0]
         green = canvas[..., 1]
