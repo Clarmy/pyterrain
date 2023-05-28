@@ -1,22 +1,24 @@
 # pyterrain
-A python package to fetch terrain.
+This is a Python package designed for terrain data fetching.
 
 # Installation
-You can install by pip `$ pip install pyterrain`
+To install the package, simply use pip: `$ pip install pyterrain`
+
 
 # Usage
 
 ## Register API Key
-Pyterrain doesn't offer terrain data by itself, it fetches data from another website. Before downloading data, you should sign up an API key from [nextzen.org](https://developers.nextzen.org/). The key's pattern is like `Dto0r88DQuaQizoxcQSxxx`
+Pyterrain itself does not provide terrain data. Instead, it retrieves data from an external source. In order to download this data, you first need to register for an API key at [nextzen.org](https://developers.nextzen.org/). An example of the key format would be `Dto0r88DQuaQizoxcQSxxx`.
+
 
 ## Fetch DEM by bound box
-When API key is reday, you can download DEM data like this:
+Once your API key is set up, you can proceed to download DEM data as follows:
 
 ```python
-bbox = 108.444319, 20.161757, 111.318897, 18.05883  # Hainan province of China
+bbox = 116.972979,36.387619, 117.208694,36.172087  # This represents the Mount Taishan of China
 
-terrain = Terrain("Dto0r88DQuaQizoxcQSxxx")  # Pass API key
+terrain = Terrain("Dto0r88DQuaQizoxcQSxxx")  # Insert your API key
 xs, ys, elevation = terrain.fetch(bbox=bbox, quiet=False, coord="lonlat", zoom=10)
 ```
 
-If download is not completed because of connection, retry it.
+In case the download isn't completed due to connectivity issues, please retry the process.

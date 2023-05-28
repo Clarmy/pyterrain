@@ -8,3 +8,4 @@ cache/
 *egg*
 __pycache__
 .vscode
+result

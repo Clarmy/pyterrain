@@ -1,0 +1,4 @@
+[flake8]
+# Ignore line length lint
+max-line-length = 128
+ignore = E203

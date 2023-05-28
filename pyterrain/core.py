@@ -91,6 +91,23 @@ class Terrain:
         multiproc=4,
         quiet=False,
     ) -> tuple:
+        """
+        Fetches and mosaics map tiles from a web service.
+
+        Args:
+            bbox (List[float]): Bounding box coordinates [left, upper, right, lower].
+            zoom (int, optional): Zoom level for the map tiles. If None, a suitable zoom level will be calculated.
+            timeout (int or float, optional): Timeout for the requests. Defaults to 10.
+            cache_path (str, optional): Path to store cached tiles. Defaults to "./cache".
+            keep_cache (bool, optional): Whether to keep the cached tiles after fetching. Defaults to True.
+            coord (str, optional): Coordinate system of the output. Can be 'xy' or 'lonlat'. Defaults to 'xy'.
+            multiproc (int, optional): Number of processes to use for multiprocessing. Defaults to 4.
+            quiet (bool, optional): Whether to display progress bars and print statements. Defaults to False.
+
+        Returns:
+            tuple: Tuple of three numpy arrays representing the x coordinates, y coordinates,
+                   and elevation values of the fetched tiles.
+        """
         if quiet:
             progress_bar = False
         else:
@@ -164,7 +181,7 @@ class Terrain:
                     tqdm(
                         p.imap_unordered(single_download, task_args),
                         total=len(task_args),
-                        desc="downloading",
+                        desc="Downloading",
                     ),
                 )
 
@@ -195,11 +212,11 @@ class Terrain:
         elevation = ((red * 256 + green + blue / 256) - 32768).astype(int)[idx]
 
         if not quiet:
-            print(f"bbox: {bbox}")
-            print(f"zoom: {zoom}")
-            print(f"mean of elevation: {int(elevation.mean())}")
-            print(f"max of elevation: {elevation.max()}")
-            print(f"min of elevation: {elevation.min()}")
+            print(f"Bbox: {bbox}")
+            print(f"Zoom: {zoom}")
+            print(f"Mean of elevation: {int(elevation.mean())}")
+            print(f"Max of elevation: {elevation.max()}")
+            print(f"Min of elevation: {elevation.min()}")
 
         if not keep_cache:
             shutil.rmtree(cache_path)
