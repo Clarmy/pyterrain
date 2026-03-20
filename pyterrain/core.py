@@ -36,9 +36,9 @@ def single_download(arg):
 
 
 class Terrain:
-    API_URL_PATTERN = "https://tile.nextzen.org/tilezen/terrain/v1/256/terrarium/{z}/{x}/{y}.png?api_key={api_key}"
+    API_URL_PATTERN = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"
 
-    def __init__(self, api_key) -> None:
+    def __init__(self, api_key=None) -> None:
         self.api_key = api_key
 
     def _find_suitable_zoom(
@@ -140,9 +140,7 @@ class Terrain:
         urls = []
         for nx, x in enumerate(range(tile_left_x, tile_right_x + 1, 1)):
             for ny, y in enumerate(range(tile_upper_y, tile_lower_y + 1, 1)):
-                url = self.API_URL_PATTERN.format(
-                    z=zoom, x=x, y=y, api_key=self.api_key
-                )
+                url = self.API_URL_PATTERN.format(z=zoom, x=x, y=y)
                 urls.append(((nx, ny), (x, y), url))
 
         shape = (
