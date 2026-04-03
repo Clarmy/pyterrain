@@ -8,9 +8,10 @@ from pyterrain import Terrain
 
 if __name__ == "__main__":
 
-    bbox = 108.444319, 20.161757, 111.318897, 18.05883  # 海南岛
+    # bbox = 108.444319, 20.161757, 111.318897, 18.05883  # 海南岛
+    bbox = 118.538536,32.210923, 118.987545,31.936777 # 南京
 
-    terrain = Terrain("qBD4m7PNT5apV-Xl7PROxA")
+    terrain = Terrain()
 
     xs, ys, elevation = terrain.fetch(bbox=bbox, quiet=False, coord="lonlat", zoom=12)
 
@@ -56,4 +57,4 @@ if __name__ == "__main__":
         linewidths=0.8,
         zorder=5,
     )
-    fig.savefig("./hynanrule.png")
+    fig.savefig("./hyrule-nanjing.png")
