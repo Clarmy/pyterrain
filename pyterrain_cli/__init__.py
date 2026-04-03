@@ -127,7 +127,9 @@ def install_codex_skill(workspace: Path, force: bool = False, scope: str = "loca
     written_paths = [
         target_dir / "SKILL.md",
         target_dir / "references" / "api-overview.md",
+        target_dir / "references" / "api-cheatsheet.md",
         target_dir / "references" / "workflows.md",
+        target_dir / "references" / "capability-boundaries.md",
         target_dir / "references" / "common-pitfalls.md",
         target_dir / "examples" / "fetch-lonlat-example.py",
         target_dir / "examples" / "fetch-webmercator-example.py",
@@ -140,7 +142,9 @@ def install_codex_skill(workspace: Path, force: bool = False, scope: str = "loca
             f"- [`.agents/skills/{SKILL_NAME}/SKILL.md`](.agents/skills/{SKILL_NAME}/SKILL.md)\n\n"
             "Additional references:\n\n"
             f"- [API overview](.agents/skills/{SKILL_NAME}/references/api-overview.md)\n"
+            f"- [API cheatsheet](.agents/skills/{SKILL_NAME}/references/api-cheatsheet.md)\n"
             f"- [Workflows](.agents/skills/{SKILL_NAME}/references/workflows.md)\n"
+            f"- [Capability boundaries](.agents/skills/{SKILL_NAME}/references/capability-boundaries.md)\n"
             f"- [Common pitfalls](.agents/skills/{SKILL_NAME}/references/common-pitfalls.md)"
         )
         agents_path.write_text(
@@ -185,7 +189,9 @@ def install_cursor_skill(workspace: Path, force: bool = False, scope: str = "loc
     return [
         skill_root / "SKILL.md",
         skill_root / "references" / "api-overview.md",
+        skill_root / "references" / "api-cheatsheet.md",
         skill_root / "references" / "workflows.md",
+        skill_root / "references" / "capability-boundaries.md",
         skill_root / "references" / "common-pitfalls.md",
         skill_root / "examples" / "fetch-lonlat-example.py",
         skill_root / "examples" / "fetch-webmercator-example.py",
@@ -219,7 +225,9 @@ def install_claudecode_skill(workspace: Path, force: bool = False, scope: str = 
     return [
         skill_root / "SKILL.md",
         skill_root / "references" / "api-overview.md",
+        skill_root / "references" / "api-cheatsheet.md",
         skill_root / "references" / "workflows.md",
+        skill_root / "references" / "capability-boundaries.md",
         skill_root / "references" / "common-pitfalls.md",
         skill_root / "examples" / "fetch-lonlat-example.py",
         skill_root / "examples" / "fetch-webmercator-example.py",

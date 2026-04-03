@@ -33,7 +33,9 @@ Treat `pyterrain` as a focused Python terrain-fetch utility: it computes tile co
 ## How to Work with Supporting Files
 
 - Use `references/api-overview.md` for API contracts.
+- Use `references/api-cheatsheet.md` for quick parameter and call selection.
 - Use `references/workflows.md` for practical execution patterns.
+- Use `references/capability-boundaries.md` when responsibility is split across pyterrain and other GIS/scientific libraries.
 - Use `references/common-pitfalls.md` for debugging-first checks.
 - Use `examples/` to ground final code in runnable templates.
 

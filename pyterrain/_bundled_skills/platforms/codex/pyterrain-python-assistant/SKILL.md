@@ -10,7 +10,9 @@ description: Use when writing, reviewing, or explaining Python code that uses py
 Use this skill when an AI needs to help with `pyterrain` code. The goal is to choose correct `Terrain.fetch(...)` parameters, avoid bbox/coordinate mistakes, and produce runnable snippets that fit terrain-fetch workflows.
 
 For API behavior and parameter semantics, read [references/api-overview.md](references/api-overview.md).  
+For quick parameter selection, read [references/api-cheatsheet.md](references/api-cheatsheet.md).  
 For practical task flow, read [references/workflows.md](references/workflows.md).  
+For scope boundaries with other geospatial tools, read [references/capability-boundaries.md](references/capability-boundaries.md).  
 For debugging and anti-hallucination checks, read [references/common-pitfalls.md](references/common-pitfalls.md).
 
 ## When To Use
