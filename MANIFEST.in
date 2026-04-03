@@ -4,6 +4,7 @@ include *.rst
 include *.txt
 include LICENSE
 recursive-include requirements *.txt
+recursive-include pyterrain/_bundled_skills *.md *.py
 
 global-exclude __pycache__ *.py[cod] *.ipynb
 global-exclude *.so *.dylib

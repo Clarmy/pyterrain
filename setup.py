@@ -40,9 +40,22 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Clarmy/pyterrain",
     include_package_data=True,
-    package_data={"": []},
+    package_data={
+        "pyterrain._bundled_skills": [
+            "platforms/codex/pyterrain-python-assistant/SKILL.md",
+            "platforms/cursor/pyterrain-python-assistant/SKILL.md",
+            "platforms/claudecode/pyterrain-python-assistant/SKILL.md",
+            "shared/pyterrain-python-assistant/references/*.md",
+            "shared/pyterrain-python-assistant/examples/*.py",
+        ]
+    },
     packages=setuptools.find_packages(),
     install_requires=required,
+    entry_points={
+        "console_scripts": [
+            "pyterrain=pyterrain_cli:main",
+        ]
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
