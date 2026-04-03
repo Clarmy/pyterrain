@@ -34,7 +34,6 @@ Use this skill when helping with Python code that uses `pyterrain` to fetch DEM/
 ## How to Work with Supporting Files
 
 - Read `references/api-overview.md` for parameter and return-value semantics.
-- Read `references/api-cheatsheet.md` for quick API and parameter selection.
 - Read `references/workflows.md` for recommended usage patterns.
 - Read `references/capability-boundaries.md` to separate pyterrain responsibilities from GIS toolchain responsibilities.
 - Read `references/common-pitfalls.md` to avoid common bbox/coordinate/cache mistakes.

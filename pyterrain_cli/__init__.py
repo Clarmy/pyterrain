@@ -126,8 +126,10 @@ def install_codex_skill(workspace: Path, force: bool = False, scope: str = "loca
     agents_path = workspace / "AGENTS.md"
     written_paths = [
         target_dir / "SKILL.md",
+        target_dir / "agents" / "openai.yaml",
         target_dir / "references" / "api-overview.md",
         target_dir / "references" / "api-cheatsheet.md",
+        target_dir / "references" / "integration-patterns.md",
         target_dir / "references" / "workflows.md",
         target_dir / "references" / "capability-boundaries.md",
         target_dir / "references" / "common-pitfalls.md",
@@ -143,6 +145,7 @@ def install_codex_skill(workspace: Path, force: bool = False, scope: str = "loca
             "Additional references:\n\n"
             f"- [API overview](.agents/skills/{SKILL_NAME}/references/api-overview.md)\n"
             f"- [API cheatsheet](.agents/skills/{SKILL_NAME}/references/api-cheatsheet.md)\n"
+            f"- [Integration patterns](.agents/skills/{SKILL_NAME}/references/integration-patterns.md)\n"
             f"- [Workflows](.agents/skills/{SKILL_NAME}/references/workflows.md)\n"
             f"- [Capability boundaries](.agents/skills/{SKILL_NAME}/references/capability-boundaries.md)\n"
             f"- [Common pitfalls](.agents/skills/{SKILL_NAME}/references/common-pitfalls.md)"
@@ -189,7 +192,6 @@ def install_cursor_skill(workspace: Path, force: bool = False, scope: str = "loc
     return [
         skill_root / "SKILL.md",
         skill_root / "references" / "api-overview.md",
-        skill_root / "references" / "api-cheatsheet.md",
         skill_root / "references" / "workflows.md",
         skill_root / "references" / "capability-boundaries.md",
         skill_root / "references" / "common-pitfalls.md",
@@ -225,7 +227,6 @@ def install_claudecode_skill(workspace: Path, force: bool = False, scope: str = 
     return [
         skill_root / "SKILL.md",
         skill_root / "references" / "api-overview.md",
-        skill_root / "references" / "api-cheatsheet.md",
         skill_root / "references" / "workflows.md",
         skill_root / "references" / "capability-boundaries.md",
         skill_root / "references" / "common-pitfalls.md",

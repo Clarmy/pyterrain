@@ -1,0 +1,3 @@
+interface:
+  display_name: "pyterrain-python-assistant"
+  short_description: "Help with pyterrain DEM fetching and terrain workflows"

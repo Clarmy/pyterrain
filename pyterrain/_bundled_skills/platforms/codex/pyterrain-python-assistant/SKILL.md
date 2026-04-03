@@ -11,6 +11,7 @@ Use this skill when an AI needs to help with `pyterrain` code. The goal is to ch
 
 For API behavior and parameter semantics, read [references/api-overview.md](references/api-overview.md).  
 For quick parameter selection, read [references/api-cheatsheet.md](references/api-cheatsheet.md).  
+For common end-to-end usage templates, read [references/integration-patterns.md](references/integration-patterns.md).  
 For practical task flow, read [references/workflows.md](references/workflows.md).  
 For scope boundaries with other geospatial tools, read [references/capability-boundaries.md](references/capability-boundaries.md).  
 For debugging and anti-hallucination checks, read [references/common-pitfalls.md](references/common-pitfalls.md).

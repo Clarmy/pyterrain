@@ -43,6 +43,8 @@ setuptools.setup(
     package_data={
         "pyterrain._bundled_skills": [
             "platforms/codex/pyterrain-python-assistant/SKILL.md",
+            "platforms/codex/pyterrain-python-assistant/agents/*.yaml",
+            "platforms/codex/pyterrain-python-assistant/references/*.md",
             "platforms/cursor/pyterrain-python-assistant/SKILL.md",
             "platforms/claudecode/pyterrain-python-assistant/SKILL.md",
             "shared/pyterrain-python-assistant/references/*.md",
